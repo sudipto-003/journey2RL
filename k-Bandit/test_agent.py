@@ -1,8 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-#from epsilon_agent import Agent
-#from ucb_agent import UCB_Agent
-#from gradient_agent import GradientAgent
+import argparse
 import math
 from bandit_agents import GreedyAgent, UCBAgent, GradientAgent
 
@@ -31,10 +29,33 @@ def plot_reward(data, labels):
 
 
 if __name__ == '__main__':
-    initials = ['UCB c=sqrt(2)', 'epsilon=0.25', 'Gradient a=0.1']
+    parser = argparse.ArgumentParser(description="Different exploration algorithms comparision with their hyper parameter")
+    parser.add_argument('--run', '-r', type=int, required=True)
+    parser.add_argument('--step', '-t', type=int, required=True)
+    parser.add_argument('--ucb', '-u', action='extend', nargs='+', type=float)
+    parser.add_argument('--epsilon', '-e', action='extend', nargs='+', type=float)
+    parser.add_argument('--alpha', '-a', action='extend', nargs='+', type=float)
+    parser.add_argument('--sqrtC', action='store_true')
+    args = parser.parse_args()
+    if args.sqrtC:
+        args.ucb = [math.sqrt(c) for c in args.ucb]
+    
     agents = []
-    agents.append(UCBAgent(c=math.sqrt(2)))
-    agents.append(GreedyAgent())
-    agents.append(GradientAgent())
-    data = simulate_agents(agents, 1000, 500)
-    plot_reward(data, initials)
+    agent_labels = []
+    if args.epsilon:
+        for e in args.epsilon:
+            agents.append(GreedyAgent(epsilon=e))
+            agent_labels.append(f'Epsilon Greedy(e={e})')
+    
+    if args.ucb:
+        for c in args.ucb:
+            agents.append(UCBAgent(c=c))
+            agent_labels.append(f'UCB(c={c})')
+    
+    if args.alpha:
+        for a in args.alpha:
+            agents.append(GradientAgent(alpha=a))
+            agent_labels.append(f'Graditent with baseline(a={a})')
+
+    data = simulate_agents(agents, args.run, args.step)
+    plot_reward(data, agent_labels)
