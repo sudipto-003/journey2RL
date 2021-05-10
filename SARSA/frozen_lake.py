@@ -1,3 +1,17 @@
+# SARSA performs bad on this frozen lake environment.
+# As the frozen floor is sliperry and actual action is only
+# partialy dependend on the agent's choosen action, the agents
+# state-action is wrongly updated everytime and confuse the agent
+# therefore the proformance is hugely dropped.
+
+# At my observation, if the state-action value can be updated for 
+# the actual action has taken the performance can be signifgficatly better.
+# But this is not possible with the default frozenlake environments.
+
+# And also from the observation, when the alpha value equals to inverse of 
+# agent's lifetime the performance is slightly better than the inverse of agent's
+# visit to each state in it's lifetime.
+
 import gym
 from sarsa_agent import SARSA
 import os
