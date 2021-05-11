@@ -3,12 +3,11 @@ import math
 import random
 
 class SARSA:
-    def __init__(self, S, A, terminate_state, gamma=0.9, epsilon=0.1):
+    def __init__(self, S, A, alpha=0.1, gamma=0.9, epsilon=0.1):
         self.state_space = S
         self.action_space = A
-        self.q_a = np.ones((S, A))
-        self.q_a[terminate_state, :] = 0.0
-        self.visits = np.ones(self.state_space)
+        self.q_a = np.zeros((S, A))
+        self.alpha = alpha
         self.gamma = gamma
         self.epsilon = epsilon
 
@@ -22,7 +21,6 @@ class SARSA:
         return action
 
     def update(self, state, action, reward, next_state, next_action):
-        self.q_a[state, action] += (1 / self.visits[state] += 1) * (reward + self.gamma * 
+        self.q_a[state, action] += self.alpha * (reward + self.gamma * 
                                     self.q_a[next_state, next_action] - self.q_a[state, action])
         
-        self.visits[state] += 1

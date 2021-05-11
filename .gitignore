@@ -4,3 +4,4 @@ bin/
 */**/*.py_cache
 */__pycache__
 .vscode
+*.log
