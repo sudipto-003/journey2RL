@@ -1,5 +1,6 @@
 import gym
 from sarsa_agent import SARSA
+from sarsa_lambda import SARSA_Lam
 import os
 import time
 import logging
@@ -19,10 +20,11 @@ def clear():
 env = gym.make('Taxi-v3')
 action_space = env.action_space.n
 state_space = env.observation_space.n
-agent = SARSA(state_space, action_space)
+agent = SARSA_Lam(state_space, action_space)
 
 episode = 1
 while episode <= 1000:
+    agent.init_elibility_trace()
     cur_state = env.reset()
     cur_action = agent.choose_action(cur_state)
     step = 1
