@@ -5,3 +5,5 @@ bin/
 */__pycache__
 .vscode
 *.log
+Videos/
+gym_test.py

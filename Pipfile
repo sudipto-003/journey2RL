@@ -7,6 +7,9 @@ name = "pypi"
 numpy = "*"
 seaborn = "*"
 gym = "*"
+tensorflow = "*"
+box2d = "*"
+box2d-kengz = "*"
 
 [dev-packages]
 
