@@ -7,3 +7,4 @@ bin/
 *.log
 Videos/
 gym_test.py
+*/checkpoints/*

@@ -22,7 +22,7 @@ class DQN:
         self.q_nn = NN(num_actions, hunits1, hunits2)
         self.q_target = NN(num_actions, hunits1, hunits2)
         self.discount = discount
-        self.q_optimizer = tf.keras.optimizers.Adam(1e-3)
+        self.q_optimizer = tf.keras.optimizers.Adam(3e-3)
         self.loss = tf.keras.losses.MeanSquaredError()
         self.num_actions = num_actions
 
@@ -52,3 +52,9 @@ class DQN:
             return np.random.choice(self.num_actions)
         else:
             return tf.argmax(self.q_nn(state)[0]).numpy()
+
+    def dump_weights(self, path):
+        self.q_nn.save_weights(path)
+
+    def reload_weights(self, path):
+        self.q_nn.load_weights(path)
