@@ -1,8 +1,9 @@
-import sys
-sys.path.append('/home/sudipto/Reinforcement/MemoryBuffer/')
+# import sys
+# sys.path.append('/home/sudipto/Reinforcement/MemoryBuffer/')
 import gym
 from my_dqn import DQN
-from exp_replay import ExpReplay
+# from exp_replay import ExpReplay
+from replayQ import replayQ
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,9 +17,9 @@ dump_path = './checkpoints/cartpole'
 action_space = env.action_space.n
 
 dqn = DQN(action_space, hunits1=16, hunits2=16)
-replay = ExpReplay(100000)
+replay = replayQ(100000)
 num_episodes = 1000
-batch_size = 128
+batch_size = 12
 cur_frame = 0
 epsilon = 0.99
 window = []
@@ -28,7 +29,8 @@ mean_rewards = []
 for episode in range(1, num_episodes+1):
     state = env.reset()
     ep_reward, done = 0, False
-    while not done:
+    # while not done:
+    for run in range(13):
         #env.render()
         state_in = tf.expand_dims(state, axis=0)
         action = dqn.chose_action(state_in, epsilon)
@@ -45,6 +47,7 @@ for episode in range(1, num_episodes+1):
         if len(replay) >= batch_size:
             states, actions, rewards, next_states, dones = replay.sample(batch_size)
             loss = dqn.train_dqn(states, actions, rewards, next_states, dones)
+            # print(f'loss {loss.shape}')
 
     if episode < 485:
         epsilon -= 0.002
