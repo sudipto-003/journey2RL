@@ -23,10 +23,10 @@ class ExpReplay(object):
             rewards.append(reward)
             next_states.append(np.array(next_state, copy=False))
             dones.append(done)
-        states = np.array(states)
-        actions = np.array(actions)
+        states = np.array(states, dtype=np.float32)
+        actions = np.array(actions, dtype=np.float32)
         rewards = np.array(rewards, dtype=np.float32)
-        next_states = np.array(next_states)
+        next_states = np.array(next_states, dtype=np.float32)
         dones = np.array(dones, dtype=np.float32)
 
         return states, actions, rewards, next_states, dones
