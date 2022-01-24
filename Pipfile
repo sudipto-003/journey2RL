@@ -10,8 +10,10 @@ gym = "*"
 tensorflow = "*"
 box2d = "*"
 box2d-kengz = "*"
+tensorflow-probability = "*"
+box2d-py = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3.10"
