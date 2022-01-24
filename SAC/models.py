@@ -20,7 +20,7 @@ class Actor(tf.keras.Model):
         log_std = self.log_std(z)
         log_std_clipped = tf.clip_by_value(log_std, MAX_LOG_STD, MIN_LOG_STD)
         normal_dist = tfp.distributions.Normal(mean, tf.exp(log_std_clipped))
-        action = normal_dist.sample()
+        action = tf.stop_gradient(normal_dist.sample())
         squashed_action = tf.tanh(action)
         log_prob = normal_dist.log_prob(action) - tf.math.log(1.0 - tf.pow(squashed_action, 2) + self.logprob_epsilon)
         log_prob = tf.reduce_sum(log_prob, axis=-1, keepdims=True)
@@ -39,4 +39,3 @@ class Critic(tf.keras.Model):
     def call(self, state, action):
         s_a = tf.concat([state, action], 1)
         return self.qvalue(self.h2(self.h1(s_a)))
-        
